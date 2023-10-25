@@ -6,42 +6,83 @@ import { useState } from 'react';
 import './App.css';
 
 function App() {
-	const [color, setColor] = useState('');
-	const colors = ['blue', 'red', 'green'];
+	const [quoteData, setQuoteData] = useState({
+		id: null,
+		quote: '',
+		author: '',
+		color: ''
+	})
 
+	//To be replaced by an API
+	const quotes = [
+		{
+			id: 0,
+			quote:
+				'To be yourself in a world that is constantly trying to make you something else is the greatest 	accomplishment.',
+			author: 'Ralph Waldo Emerson',
+			color: '#567A5B',
+		},
+		{
+			id: 1,
+			quote: "In the end, it's not the years in your life that count. It's the life in your years.",
+			author: 'Abraham Lincoln',
+			color: '#836B61',
+		},
+		{
+			id: 2,
+			quote: "In three words I can sum up everything I've learned about life: it goes on.",
+			author: 'Robert Frost',
+			color: '#4B6CA3',
+		},
+		{
+			id: 3,
+			quote: 'The future belongs to those who believe in the beauty of their dreams.',
+			author: 'Eleanor Roosevelt',
+			color: '#885CC5',
+		},
+	];
+
+
+	//Randomly picks a new quote and makes sure it's different from the previous one.
 	const handleClick = (event) => {
-		let newColor;
+		let newQuoteData;
 
 		do {
-			const randomIndex = Math.floor(Math.random() * colors.length);
-			newColor = colors[randomIndex];
-		} while (newColor === color);
+			const randomIndex = Math.floor(Math.random() * quotes.length);
+			newQuoteData = quotes[randomIndex];
+		} while (newQuoteData.id === quoteData.id);
 
-		setColor(newColor);
+		setQuoteData(newQuoteData);
 	};
+	
+
+	//Generate a quote at the start
+	if (quoteData.id === null) {
+		setTimeout(handleClick, 500);
+	}
+
 
 	return (
-		<main style={{ backgroundColor: color }}>
+		<main style={{ backgroundColor: quoteData.color }}>
 			<section>
-				<div className='container'>
-					<div className='quote' style={{ color: color }}>
-						<FontAwesomeIcon icon={faQuoteLeft} className='left-quote' style={{ color: color }} />
-						Few things can help an individual more than to place responsibility on him, and to let him know that you
-						trust him.
+				<div id='quote-box'>
+					<div id='text' style={{ color: quoteData.color }}>
+						<FontAwesomeIcon icon={faQuoteLeft} className='quote-icon' style={{ color: quoteData.color }} />
+						{quoteData.quote}
 					</div>
-					<span className='author' style={{ color: color }}>
-						- Earl Nightingale
+					<span id='author' style={{ color: quoteData.color }}>
+						- {quoteData.author}
 					</span>
 					<div className='ctas'>
 						<div>
-							<a>
-								<FontAwesomeIcon icon={faTwitter} className='icon' style={{ backgroundColor: color }} />
+							<a id='tweet-quote' href='twitter.com/intent/tweet' target="_blank">
+								<FontAwesomeIcon icon={faTwitter} className='icon' style={{ backgroundColor: quoteData.color }} />
 							</a>
 							<a>
-								<FontAwesomeIcon icon={faPaperPlane} className='icon' style={{ backgroundColor: color }} />
+								<FontAwesomeIcon icon={faPaperPlane} className='icon' style={{ backgroundColor: quoteData.color }} />
 							</a>
 						</div>
-						<button onClick={handleClick} style={{ backgroundColor: color }}>
+						<button id='new-quote' onClick={handleClick} style={{ backgroundColor: quoteData.color }}>
 							New quote
 						</button>
 					</div>
