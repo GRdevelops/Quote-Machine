@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -10,57 +10,45 @@ function App() {
 		id: null,
 		quote: '',
 		author: '',
-		color: ''
-	})
+		color: '',
+	});
 
-	//To be replaced by an API
-	const quotes = [
-		{
-			id: 0,
-			quote:
-				'To be yourself in a world that is constantly trying to make you something else is the greatest 	accomplishment.',
-			author: 'Ralph Waldo Emerson',
-			color: '#567A5B',
-		},
-		{
-			id: 1,
-			quote: "In the end, it's not the years in your life that count. It's the life in your years.",
-			author: 'Abraham Lincoln',
-			color: '#836B61',
-		},
-		{
-			id: 2,
-			quote: "In three words I can sum up everything I've learned about life: it goes on.",
-			author: 'Robert Frost',
-			color: '#4B6CA3',
-		},
-		{
-			id: 3,
-			quote: 'The future belongs to those who believe in the beauty of their dreams.',
-			author: 'Eleanor Roosevelt',
-			color: '#885CC5',
-		},
-	];
+	// Fetch data and update state
+	const fetchQuote = async () => {
+		try {
+			const response = await fetch('https://api.quotable.io/random');
+			const data = await response.json();
 
+			let newColor = generateColor();
+			while (newColor === quoteData.color) {
+				newColor = generateColor(); // Generate a new color until it's different from the current one
+			}
 
-	//Randomly picks a new quote and makes sure it's different from the previous one.
-	const handleClick = (event) => {
-		let newQuoteData;
-
-		do {
-			const randomIndex = Math.floor(Math.random() * quotes.length);
-			newQuoteData = quotes[randomIndex];
-		} while (newQuoteData.id === quoteData.id);
-
-		setQuoteData(newQuoteData);
+			setQuoteData((prevState) => {
+				console.log('Setting quote data:', data);
+				return {
+					id: data._id,
+					quote: data.content,
+					author: data.author,
+					color: newColor,
+				};
+			});
+		} catch (error) {
+			console.error('Error fetching the quote:', error);
+		}
 	};
-	
 
-	//Generate a quote at the start
-	if (quoteData.id === null) {
-		setTimeout(handleClick, 500);
-	}
+	// Generate a random color
+	const generateColor = () => {
+		const colors = ['#34568B', '#FF6F61', '#6B5B95', '#88B04B', '#955251', '#B565A7', '#009B77', '#EFC050', '#5B5EA6'];
+		const randomIndex = Math.floor(Math.random() * colors.length);
+		return colors[randomIndex];
+	};
 
+	// Randomly picks a new quote and makes sure it's different from the previous one
+	const handleClick = (event) => {
+		fetchQuote();
+	};
 
 	return (
 		<main style={{ backgroundColor: quoteData.color }}>
@@ -75,7 +63,11 @@ function App() {
 					</span>
 					<div className='ctas'>
 						<div>
-							<a id='tweet-quote' href='twitter.com/intent/tweet' target="_blank">
+							<a
+								id='tweet-quote'
+								href={`https://twitter.com/intent/tweet?text=${quoteData.quote} - ${quoteData.author}`}
+								target='_blank'
+								rel='noopener noreferrer'>
 								<FontAwesomeIcon icon={faTwitter} className='icon' style={{ backgroundColor: quoteData.color }} />
 							</a>
 							<a>
@@ -89,7 +81,7 @@ function App() {
 				</div>
 				<div className='me'>
 					<span>
-						by <a>giovanni</a>
+						by <a href=''>giovanni</a>
 					</span>
 				</div>
 			</section>
