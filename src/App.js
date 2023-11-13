@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 
 function App() {
@@ -67,21 +67,31 @@ function App() {
 								id='tweet-quote'
 								href={`https://twitter.com/intent/tweet?text=${quoteData.quote} - ${quoteData.author}`}
 								target='_blank'
+								aria-label='tweet this quote'
 								rel='noopener noreferrer'>
 								<FontAwesomeIcon icon={faTwitter} className='icon' style={{ backgroundColor: quoteData.color }} />
 							</a>
-							<a>
-								<FontAwesomeIcon icon={faPaperPlane} className='icon' style={{ backgroundColor: quoteData.color }} />
+							<a 
+							href='https://www.desengineers.co/' 
+							title='go back to Portfolio'
+							aria-label='go back to portfolio'>
+								<FontAwesomeIcon 
+								icon={faPaperPlane} 
+								className='icon' 
+								style={{ backgroundColor: quoteData.color }} />
 							</a>
 						</div>
-						<button id='new-quote' onClick={handleClick} style={{ backgroundColor: quoteData.color }}>
+						<button 
+						id='new-quote' 
+						onClick={handleClick} 
+						style={{ backgroundColor: quoteData.color }}>
 							New quote
 						</button>
 					</div>
 				</div>
 				<div className='me'>
 					<span>
-						by <a href=''>giovanni</a>
+						by <a href='https://www.desengineers.co/'>giovanni</a>
 					</span>
 				</div>
 			</section>
