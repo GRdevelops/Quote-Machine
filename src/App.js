@@ -91,7 +91,7 @@ function App() {
 				</div>
 				<div className='me'>
 					<span>
-						by <a href='https://www.desengineers.co/'>giovanni</a>
+						by <a href='https://www.desengineers.co/' title='go back to Portfolio'>giovanni</a>
 					</span>
 				</div>
 			</section>
