@@ -1,7 +1,9 @@
 # React Quote Machine
 
 ## Introduction
-This is a React-based Quote Machine project, part of my portfolio to showcase my skills in React and front-end development. The application dynamically displays quotes and allows users to generate new quotes and share them on social media.
+This is a React-based Quote Machine project, part of my portfolio to showcase my skills in React and front-end development. 
+
+The application dynamically displays quotes and allows users to generate new quotes and share them on social media.
 
 ## Deployment
 This project was deployed using Netlify: https://quote-generator-using-react.netlify.app/
